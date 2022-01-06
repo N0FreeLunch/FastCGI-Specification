@@ -48,6 +48,7 @@ FCGI_WEB_SERVER_ADDRS is expressed as a comma-separated list of IP addresses. Ea
 FCGI_WEB_SERVER_ADDRS는 쉼표로 구분된 IP 주소 목록으로 표시됩니다. 각 IP 주소는 소수점으로 구분된 [0..255] 범위의 4개의 십진수로 작성됩니다. 따라서 이 변수에 대한 법적 바인딩은 FCGI_WEB_SERVER_ADDRS=199.170.183.28,199.170.183.71입니다.
 
 An application may accept several concurrent transport connections, but it need not do so.
+
 응용 프로그램은 여러 개의 동시 전송 연결을 수락할 수 있지만 그렇게 할 필요는 없습니다.
 
 ### 3.3 Records
@@ -138,6 +139,7 @@ The Web server attempts to keep FastCGI request IDs small. That way the applicat
 #### 레코드 유형의 유형
 
 There are two useful ways of classifying FastCGI record types.
+
 FastCGI 레코드 유형을 분류하는 두 가지 유용한 방법이 있습니다.
 
 The first distinction is between management records and application records. A management record contains information that is not specific to any Web server request, such as information about the protocol capabilities of the application. An application record contains information about a particular request, identified by the requestId component.
