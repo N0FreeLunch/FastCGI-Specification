@@ -1,16 +1,19 @@
 2.1 Argument list
+
 By default the Web server creates an argument list containing a single element, the name of the application, taken to be the last component of the executable's path name. The Web server may provide a way to specify a different application name, or a more elaborate argument list.
-Note that the file executed by the Web server might be an interpreter file (a text file that starts with the characters #!), in which case the application's argument list is constructed as described in the execve manpage.
 
 기본적으로 웹 서버는 실행 파일 경로 이름의 마지막 구성 요소로 간주되는 응용 프로그램 이름이라는 단일 요소를 포함하는 인수 목록을 만듭니다. 웹 서버는 다른 응용 프로그램 이름이나 보다 정교한 인수 목록을 지정하는 방법을 제공할 수 있습니다.
+
+Note that the file executed by the Web server might be an interpreter file (a text file that starts with the characters #!), in which case the application's argument list is constructed as described in the execve manpage.
 
 웹 서버가 실행하는 파일은 인터프리터 파일(문자 #!로 시작하는 텍스트 파일)일 수 있으며, 이 경우 응용 프로그램의 인수 목록은 execve 맨페이지에 설명된 대로 구성됩니다.
 
 2.2 File descriptors
 The Web server leaves a single file descriptor, FCGI_LISTENSOCK_FILENO, open when the application begins execution. This descriptor refers to a listening socket created by the Web server.
-FCGI_LISTENSOCK_FILENO equals STDIN_FILENO. The standard descriptors STDOUT_FILENO and STDERR_FILENO are closed when the application begins execution. A reliable method for an application to determine whether it was invoked using CGI or FastCGI is to call getpeername(FCGI_LISTENSOCK_FILENO), which returns -1 with errno set to ENOTCONN for a FastCGI application.
 
 웹 서버는 응용 프로그램이 실행을 시작할 때 열린 단일 파일 설명자 FCGI_LISTENSOCK_FILENO를 남겨둡니다. 이 디스크립터는 웹 서버에 의해 생성된 수신 소켓을 참조합니다.
+
+FCGI_LISTENSOCK_FILENO equals STDIN_FILENO. The standard descriptors STDOUT_FILENO and STDERR_FILENO are closed when the application begins execution. A reliable method for an application to determine whether it was invoked using CGI or FastCGI is to call getpeername(FCGI_LISTENSOCK_FILENO), which returns -1 with errno set to ENOTCONN for a FastCGI application.
 
 FCGI_LISTENSOCK_FILENO는 STDIN_FILENO와 같습니다. 표준 설명자 STDOUT_FILENO 및 STDERR_FILENO는 응용 프로그램이 실행을 시작할 때 닫힙니다. 응용 프로그램이 CGI 또는 FastCGI를 사용하여 호출되었는지 여부를 결정하는 신뢰할 수 있는 방법은 getpeername(FCGI_LISTENSOCK_FILENO)을 호출하는 것입니다. 이는 FastCGI 응용 프로그램에 대해 errno가 ENOTCONN으로 설정된 상태에서 -1을 반환합니다.
 
