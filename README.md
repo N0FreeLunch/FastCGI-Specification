@@ -1,2 +1,3 @@
 ## Reference
-- http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html#S3.5
+- FastCGI : http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html
+- ngx_http_fastcgi_module : http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_keep_conn
