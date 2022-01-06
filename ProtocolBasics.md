@@ -1,6 +1,7 @@
-3. Protocol Basics
+## 3. Protocol Basics
 
-3.1 Notation
+### 3.1 Notation
+
 We use C language notation to define protocol message formats. All structure elements are defined in terms of the unsigned char type, and are arranged so that an ISO C compiler lays them out in the obvious manner, with no padding. The first byte defined in the structure is transmitted first, the second byte second, etc.
 
 프로토콜 메시지 형식을 정의하기 위해 C 언어 표기법을 사용합니다. 모든 구조 요소는 unsigned char 유형으로 정의되며 ISO C 컴파일러가 패딩 없이 명확한 방식으로 배치하도록 배열됩니다. 구조에 정의된 첫 번째 바이트가 먼저 전송되고 두 번째 바이트가 두 번째로 전송되는 식입니다.
@@ -30,8 +31,8 @@ meaning a structure of varying length, where the length of a component is determ
 
 
 
-3.2 Accepting Transport Connections
-3.2 전송 연결 수락
+### 3.2 Accepting Transport Connections
+### 3.2 전송 연결 수락
 
 A FastCGI application calls accept() on the socket referred to by file descriptor FCGI_LISTENSOCK_FILENO to accept a new transport connection. If the accept() succeeds, and the FCGI_WEB_SERVER_ADDRS environment variable is bound, the application application immediately performs the following special processing:
 FCGI_WEB_SERVER_ADDRS: The value is a list of valid IP addresses for the Web server.
@@ -49,8 +50,8 @@ FCGI_WEB_SERVER_ADDRS는 쉼표로 구분된 IP 주소 목록으로 표시됩니
 An application may accept several concurrent transport connections, but it need not do so.
 응용 프로그램은 여러 개의 동시 전송 연결을 수락할 수 있지만 그렇게 할 필요는 없습니다.
 
-3.3 Records
-3.3 기록
+### 3.3 Records
+### 3.3 기록
 
 Applications execute requests from a Web server using a simple protocol. Details of the protocol depend upon the application's role, but roughly speaking the Web server first sends parameters and other data to the application, then the application sends result data to the Web server, and finally the application sends the Web server an indication that the request is complete.
 
@@ -75,32 +76,42 @@ All data that flows over the transport connection is carried in FastCGI records.
         
         
 A FastCGI record consists of a fixed-length prefix followed by a variable number of content and padding bytes. A record contains seven components:
-version: Identifies the FastCGI protocol version. This specification documents FCGI_VERSION_1.
 
 FastCGI 레코드는 고정 길이 접두어와 가변 수의 콘텐츠 및 패딩 바이트로 구성됩니다. 레코드에는 다음과 같은 7가지 구성 요소가 있습니다.
-버전: FastCGI 프로토콜 버전을 식별합니다. 이 사양은 FCGI_VERSION_1을 문서화합니다.
 
-type: Identifies the FastCGI record type, i.e. the general function that the record performs. Specific record types and their functions are detailed in later sections.
-requestId: Identifies the FastCGI request to which the record belongs.
+- version: Identifies the FastCGI protocol version. This specification documents FCGI_VERSION_1.
 
-유형: FastCGI 레코드 유형, 즉 레코드가 수행하는 일반 기능을 식별합니다. 특정 레코드 유형 및 해당 기능은 이후 섹션에서 자세히 설명합니다.
-requestId: 레코드가 속한 FastCGI 요청을 식별합니다.
+- 버전: FastCGI 프로토콜 버전을 식별합니다. 이 사양은 FCGI_VERSION_1을 문서화합니다.
 
-contentLength: The number of bytes in the contentData component of the record.
-paddingLength: The number of bytes in the paddingData component of the record.
-contentData: Between 0 and 65535 bytes of data, interpreted according to the record type.
-paddingData: Between 0 and 255 bytes of data, which are ignored.
+- type: Identifies the FastCGI record type, i.e. the general function that the record performs. Specific record types and their functions are detailed in later sections.
 
-contentLength: 레코드의 contentData 구성 요소에 있는 바이트 수입니다.
-paddingLength: 레코드의 paddingData 구성 요소에 있는 바이트 수입니다.
-contentData: 0에서 65535바이트 사이의 데이터로, 레코드 유형에 따라 해석됩니다.
-paddingData: 0에서 255바이트 사이의 데이터로 무시됩니다.
+- 유형: FastCGI 레코드 유형, 즉 레코드가 수행하는 일반 기능을 식별합니다. 특정 레코드 유형 및 해당 기능은 이후 섹션에서 자세히 설명합니다.
+
+- requestId: Identifies the FastCGI request to which the record belongs.
+
+- requestId: 레코드가 속한 FastCGI 요청을 식별합니다.
+
+- contentLength: The number of bytes in the contentData component of the record.
+
+- contentLength: 레코드의 contentData 구성 요소에 있는 바이트 수입니다.
+
+- paddingLength: The number of bytes in the paddingData component of the record.
+
+- paddingLength: 레코드의 paddingData 구성 요소에 있는 바이트 수입니다.
+
+- contentData: Between 0 and 65535 bytes of data, interpreted according to the record type.
+
+- contentData: 0에서 65535바이트 사이의 데이터로, 레코드 유형에 따라 해석됩니다.
+
+- paddingData: Between 0 and 255 bytes of data, which are ignored.
+
+- paddingData: 0에서 255바이트 사이의 데이터로 무시됩니다.
 
 We use a relaxed C struct initializer syntax to specify constant FastCGI records. We omit the version component, ignore padding, and treat requestId as a number. Thus {FCGI_END_REQUEST, 1, {FCGI_REQUEST_COMPLETE,0}} is a record with type == FCGI_END_REQUEST, requestId == 1, and contentData == {FCGI_REQUEST_COMPLETE,0}.
 
 우리는 일정한 FastCGI 레코드를 지정하기 위해 편안한 C struct 이니셜라이저 구문을 사용합니다. 버전 구성 요소를 생략하고 패딩을 무시하며 requestId를 숫자로 취급합니다. 따라서 {FCGI_END_REQUEST, 1, {FCGI_REQUEST_COMPLETE,0}}은 유형 == FCGI_END_REQUEST, requestId == 1, contentData == {FCGI_REQUEST_COMPLETE,0}인 레코드입니다.
 
-Padding
+#### Padding
 
 The protocol allows senders to pad the records they send, and requires receivers to interpret the paddingLength and skip the paddingData. Padding allows senders to keep data aligned for more efficient processing. Experience with the X window system protocols shows the performance benefit of such alignment.
 
@@ -110,9 +121,8 @@ We recommend that records be placed on boundaries that are multiples of eight by
 
 레코드는 8바이트의 배수인 경계에 배치하는 것이 좋습니다. FCGI_Record의 고정 길이 부분은 8바이트입니다.
 
-Managing Request IDs
-
-요청 ID 관리
+#### Managing Request IDs
+#### 요청 ID 관리
 
 The Web server re-uses FastCGI request IDs; the application keeps track of the current state of each request ID on a given transport connection. A request ID R becomes active when the application receives a record {FCGI_BEGIN_REQUEST, R, ...} and becomes inactive when the application sends a record {FCGI_END_REQUEST, R, ...} to the Web server.
 While a request ID R is inactive, the application ignores records with requestId == R, except for FCGI_BEGIN_REQUEST records as just described.
@@ -124,8 +134,8 @@ The Web server attempts to keep FastCGI request IDs small. That way the applicat
 
 웹 서버는 FastCGI 요청 ID를 작게 유지하려고 합니다. 그런 식으로 애플리케이션은 긴 배열이나 해시 테이블이 아닌 짧은 배열을 사용하여 요청 ID 상태를 추적할 수 있습니다. 응용 프로그램에는 한 번에 하나의 요청만 수락하는 옵션도 있습니다. 이 경우 애플리케이션은 단순히 현재 요청 ID에 대해 들어오는 requestId 값을 확인합니다.
 
-Types of Record Types
-레코드 유형의 유형
+#### Types of Record Types
+#### 레코드 유형의 유형
 
 There are two useful ways of classifying FastCGI record types.
 FastCGI 레코드 유형을 분류하는 두 가지 유용한 방법이 있습니다.
@@ -146,8 +156,8 @@ These two classifications are independent. Among the record types defined in thi
 
 이 두 분류는 독립적입니다. 이 버전의 FastCGI 프로토콜에 정의된 레코드 유형 중 모든 관리 레코드 유형도 개별 레코드 유형이며 거의 모든 애플리케이션 레코드 유형은 스트림 레코드 유형입니다. 그러나 세 가지 애플리케이션 레코드 유형은 별개이며 프로토콜의 일부 이후 버전에서 스트림인 관리 레코드 유형을 정의하는 것을 방해하는 것은 없습니다.
 
-3.4 Name-Value Pairs
-3.4 이름-값 쌍
+### 3.4 Name-Value Pairs
+### 3.4 이름-값 쌍
 
 In many of their roles, FastCGI applications need to read and write varying numbers of variable-length values. So it is useful to adopt a standard format for encoding a name-value pair.
 
@@ -208,8 +218,8 @@ This name-value pair format allows the sender to transmit binary values without 
 길이의 첫 번째 바이트의 상위 비트는 길이의 인코딩을 나타냅니다. 상위 0은 1바이트 인코딩, 1은 4바이트 인코딩을 의미합니다.
 이 이름-값 쌍 형식을 통해 발신자는 추가 인코딩 없이 이진 값을 전송할 수 있으며 수신자는 큰 값에 대해서도 즉시 정확한 양의 저장 공간을 할당할 수 있습니다.
 
-3.5 Closing Transport Connections
-3.5 전송 연결 닫기
+### 3.5 Closing Transport Connections
+### 3.5 전송 연결 닫기
 
 The Web server controls the lifetime of transport connections. The Web server can close a connection when no requests are active. Or the Web server can delegate close authority to the application (see FCGI_BEGIN_REQUEST). In this case the application closes the connection at the end of a specified request.
 
