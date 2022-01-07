@@ -1,5 +1,5 @@
-1. [ntroduction](./Introduction.md)
-3. [nitial Process State](./InitialProcessState.md)
+1. [Introduction](./Introduction.md)
+3. [Initial Process State](./InitialProcessState.md)
 4. [Protocol Basics](./ProtocolBasics.md)
 5. [Management Record Types](./ManagementRecordTypes.md)
 6. [Application Record Types](./ApplicationRecordTypes.md)
