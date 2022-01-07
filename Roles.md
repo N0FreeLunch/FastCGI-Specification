@@ -1,4 +1,4 @@
-### Role Protocols
+### 6.1 Role Protocols
 
 Role protocols only include records with application record types. They transfer essentially all data using streams.
 
@@ -37,7 +37,7 @@ Role protocols do not support the non-parsed header feature of CGI. FastCGI appl
 역할 프로토콜은 CGI의 구문 분석되지 않은 헤더 기능을 지원하지 않습니다. FastCGI 응용 프로그램은 상태 및 위치 CGI 헤더를 사용하여 응답 상태를 설정합니다.
 
 
-### Responder
+### 6.2 Responder
 
 A Responder FastCGI application has the same purpose as a CGI/1.1 program: It receives all the information associated with an HTTP request and generates an HTTP response.
 
@@ -68,7 +68,7 @@ A Responder performing an update, e.g. implementing a POST method, should compar
 업데이트를 수행하는 응답자, 예: POST 메서드를 구현하는 경우 FCGI_STDIN에서 수신된 바이트 수를 CONTENT_LENGTH와 비교하고 두 숫자가 같지 않으면 업데이트를 중단해야 합니다.
 
 
-### Authorizer
+### 6.3 Authorizer
 
 An Authorizer FastCGI application receives all the information associated with an HTTP request and generates an authorized/unauthorized decision. In case of an authorized decision the Authorizer can also associate name-value pairs with the HTTP request; when giving an unauthorized decision the Authorizer sends a complete response to the HTTP client.
 
@@ -100,7 +100,7 @@ For Authorizer response status values other than "200" (OK), the Web server deni
 
 "200"(OK) 이외의 Authorizer 응답 상태 값의 경우 웹 서버는 액세스를 거부하고 응답 상태, 헤더 및 콘텐츠를 HTTP 클라이언트로 다시 보냅니다.
 
-### Filter
+### 6.4 Filter
 
 A Filter FastCGI application receives all the information associated with an HTTP request, plus an extra stream of data from a file stored on the Web server, and generates a "filtered" version of the data stream as an HTTP response.
 
